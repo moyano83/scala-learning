@@ -46,5 +46,16 @@ For arrays that grow and shrink use ArrayBuffer
 `val a = new ArrayBuffer[Int]()`
 You can add elements `a += (1,3)`, insert elements `a.insert(2, 4)`, trim elements (remove them from the end) `a.trimEnd(2)` or remove them at an specific location `a.remove(2)` or to remove 4 elements at position 2 `a.remove(2, 4)`. Inserting at specific locations is not as performant as deleting or appending as part of the array has to be moved.
 Use `a.toArray` to convert an arraybuffer to an array and `a.toBuffer` from Array to buffer.
-Traversing an array:
-`for(i <- 1 until a.size)`
+Traversing an array is done with for (i <- Range):
+`for(i <- 1 until a.size) //i goes from 0 to a.size - 1. Check RichInt until method`
+*Common Methods*
+Sum: `Array(1,4,3).sum //yields 8`
+OrderWith `Array(1,4,3).sortWith(_<_) //yields Array(1, 3, 4) does not modify the original array`
+mkString: `Array(1,5,2).mkString(" $ ") / yields '1 & 5 & 2'`
+*Multidimensional Arrays*
+`val matrix = Array.ofDim[type](n_rows, n_columns)`
+*Interoperatibility with Java*
+To transform scala collections to java ones, use the `import collection.JavaConversions` for example: `val commands = collection.mutable.ArrayBuffer("ls", "-al", "/home/cay")`
+To convert java to scala use the scala Buffer conversions `val cmds : collection.mutable.Buffer[String] = pb.commands() // pb.commands returns a List<?>`
+#Chapter 4: Maps and Tuples
+
