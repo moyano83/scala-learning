@@ -299,4 +299,46 @@ _Null_ type has a sole instance which value is _null_. It can't be assigned to t
 The _eq_ method of the _AnyRef_ object checks if two instances are the same object, the _equal_ methods calls _eq_ in _AnyRef_, it is advised to override this method `final override def equals(other: Any) = {...}`. The type of the parameter passed should be _Any_.
 
 # Chapter 9: Files and Regular Expressions
-
+*Reading Lines*
+To read all lines in a file:
+```
+val source = Source.fromFile("myfile.txt", "UTF-8")
+val lines = source.getLines
+```
+The result is an iterator that you can use to process the lines.
+*Reading Characters*
+To read over the charaters, use the `source` object directly:
+`for(c<- source)`
+You can use the next input characterwithout consuming it  with the _head_ method.
+*Reading Tokers and Numbers*
+To split the file lines into tokens, you can do `lines.mkString.split("\\s")`. The methods `toDouble`or `toInt` are similar to parseDouble or parseInt in java. You can also read input from console with `readInt()` and other methods from the _Console_ object (which is imported by default).
+*Reading from URLs and other sources*
+The _Source_ object has methods to read from other sources:
+- `Source.fromURL(<url>, <coding>)`
+- `Source.stdin`
+- `Source.fromString(<string>)`
+*Reading Binary Files*
+There is no provision in scala to read binary files, import and use the java one.
+*Writing into Text files*
+There is no provision in scala to write into files, use `java.io.PrintWriter` 
+*Visiting directories*
+There is no provision in scala, use the _File_ class in java
+*Serialization*
+There is a _@Serializable_ trait in Scala that extend from the Java one. To serialize and object use the java approach.
+```
+import java.io._
+val out = new ObjectOutputStream(new FileOutputStream("/tmp/test.obj")) 
+out.writeObject(fred)
+out.close()
+val in = new ObjectInputStream(new FileInputStream("/tmp/test.obj")) 
+val savedFred = in.readObject().asInstanceOf[Person]
+```
+*Regular Expressions*
+To construct a Regex object, use the _r_ method of the _String_ class: `val numPattern = "[0-9]+".r
+`. The _findAllIn_ method returns an iterator through all matches. _findFirstIn_ returns the first match anywhere in a String. To replace the first match or all matches use the _replaceFirstIn_ or _replaceAllIn_ methods.
+*Regular Expression Groups*
+To get subexpressions of regular expressions, use parentheses: 
+```
+val numitemPattern = "([0-9]+) ([a-z]+)".r
+val numitemPattern(num, item) = "99 bottles" // sets num to "99", item to "bottles"
+```
